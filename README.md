@@ -21,7 +21,7 @@ A FastAPI application that forwards GitHub repository events to Telegram, specif
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/repository-name.git
+git clone https://github.com/MrLionByte/github-telegram-bridge.git
 ```
 
 2. Create a `.env` file:
