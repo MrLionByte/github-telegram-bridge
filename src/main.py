@@ -29,12 +29,14 @@ async def handle_github_webhook(req: Request):
         
         
         message = f"""
-            New Issue Update in [{repo['name']}]({repo['html_url']}):
-            Title: {issue['title']}
-            Status: {body['action']}
-            URL: {issue['html_url']}
-            Author: {issue['user']['login']}
-            """
+        📢 *New Issue Update in* [{repo['name']}]({repo['html_url']}):
+
+        🔹 *Title:* *{issue['title']}*  
+        🔹 *Status:* *{body['action']}*  
+        🔹 *Description:* {issue.get('description', 'No description provided')}  
+        🔹 *URL:* [Click here]({issue['html_url']})  
+        🔹 *Author:* _{issue['user']['login']}_  
+        """
         
         await send_telegram_message(message)
         return {"status": "success"}
