@@ -1,0 +1,46 @@
+from fastapi import FastAPI, Request
+import os
+from dotenv import load_dotenv
+import httpx
+
+load_dotenv()
+
+app = FastAPI()
+
+TOKEN = os.getenv("TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+
+
+async def send_telegram_message(message: str):
+    tg_msg = {"chat_id":CHAT_ID, "text": message, "parse_mode": "Markdown"}
+    print(TOKEN, CHAT_ID, tg_msg)
+    API_URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+    async with httpx.AsyncClient() as client:
+        await client.post(API_URL, json=tg_msg)
+    
+@app.post("/github-webhook/")
+async def handle_github_webhook(req: Request):
+
+    body = await req.json()
+    
+    if body.get("action") in ["opened", "closed", "reopened"]:
+        issue = body.get("issue", {})
+        repo = body.get("repository", {})
+        
+        
+        message = f"""
+            New Issue Update in [{repo['name']}]({repo['html_url']}):
+            Title: {issue['title']}
+            Status: {body['action']}
+            URL: {issue['html_url']}
+            Author: {issue['user']['login']}
+            """
+        
+        await send_telegram_message(message)
+        return {"status": "success"}
+    
+    return {"status": "ignored"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8099, reload=True)
