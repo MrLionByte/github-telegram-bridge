@@ -41,6 +41,21 @@ async def handle_github_webhook(req: Request):
     
     return {"status": "ignored"}
 
+@app.post("/test-bot-message/")
+async def send_test_message(req: Request):
+    test_message = """
+        Test Message from GitHub Webhook Bot:
+        • Bot is working correctly
+        • Webhook endpoint is accessible
+        • Telegram integration is functioning
+        """
+    try:
+        await send_telegram_message(test_message)
+        return {"status": "success", "message": "Test message sent successfully", "test_message":test_message}
+    except Exception as e:
+        return {"status": "error", "message": f"Failed to send test message: {str(e)}"} 
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8099, reload=True)
