@@ -13,7 +13,6 @@ CHAT_ID = os.getenv("CHAT_ID")
 
 async def send_telegram_message(message: str):
     tg_msg = {"chat_id":CHAT_ID, "text": message, "parse_mode": "Markdown"}
-    print(TOKEN, CHAT_ID, tg_msg)
     API_URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     async with httpx.AsyncClient() as client:
         await client.post(API_URL, json=tg_msg)
@@ -33,10 +32,8 @@ async def handle_github_webhook(req: Request):
 
         🔹 *Title:* *{issue['title']}*  
         🔹 *Status:* *{body['action']}*  
-        🔹 *Description:* {issue.get('body', 'No description provided')}  
         🔹 *URL:* [Click here]({issue['html_url']})  
         🔹 *Author:* _{issue['user']['login']}_ 
-        ALL : {issue}
         """
         
         await send_telegram_message(message)
