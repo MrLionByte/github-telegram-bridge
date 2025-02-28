@@ -33,9 +33,10 @@ async def handle_github_webhook(req: Request):
 
         🔹 *Title:* *{issue['title']}*  
         🔹 *Status:* *{body['action']}*  
-        🔹 *Description:* {issue.get('description', 'No description provided')}  
+        🔹 *Description:* {issue.get('body', 'No description provided')}  
         🔹 *URL:* [Click here]({issue['html_url']})  
-        🔹 *Author:* _{issue['user']['login']}_  
+        🔹 *Author:* _{issue['user']['login']}_ 
+        ALL : {issue}
         """
         
         await send_telegram_message(message)
