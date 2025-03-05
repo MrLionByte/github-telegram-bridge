@@ -90,6 +90,7 @@ async def handle_github_webhook(req: Request):
     
     return {"status": "ignored"}
 
+@app.post("/test-bot-message/")
 async def send_test_message(status: str = Query("opened", enum=["opened", "closed", "reopened"])):
     issue = generate_dummy_issue(status)
     
