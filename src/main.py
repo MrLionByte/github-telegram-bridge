@@ -39,7 +39,7 @@ async def handle_github_webhook(req: Request):
         
         if body['action'] == 'opened':
             message = f"""
-            🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
+            🔵🔵🔵
             🚀 *New Issue Created in* [{repo['name']}]({repo['html_url']})!  
 
             *🔹 Title:** {issue['title']}
@@ -48,11 +48,12 @@ async def handle_github_webhook(req: Request):
             *📎 URL:** [View Issue]({issue['html_url']})  
 
             📢 Check it out and contribute!
+            🔵🔵🔵
             """
             
         elif body['action'] == 'closed':
             message = f"""
-            🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+            🔴🔴🔴
             ✅ *Issue Resolved in* [{repo['name']}]({repo['html_url']})!  
 
             *🔸 Title:** {issue['title']}  
@@ -61,11 +62,12 @@ async def handle_github_webhook(req: Request):
             *🙌 Closed By:** {issue['user']['login']}  
 
             🎉 Great work! The issue is now closed.
+            🔴🔴🔴
             """
 
         elif body['action'] == 'reopened':
             message = f"""
-            🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡🟡
+            🟡🟡🟡
             ⚠️ *Issue Reopened in* [{repo['name']}]({repo['html_url']})!  
 
             *🔺 Title:** {issue['title']}  
@@ -74,6 +76,7 @@ async def handle_github_webhook(req: Request):
             *🔄 Reopened By:** {issue['user']['login']}  
 
             🛠️ Further action is required!
+            🟡🟡🟡
             """
         else:
             message = f"""
